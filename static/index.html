@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Message Hours</title>
+<style>
+:root{--accent:#241E4E;--accent-b:#4B3F9E;--accent-soft:#E9E7F5;--accent-line:#CBC7E6;--bg:#F5F5F8;--bg-deep:#EAEAF1;--card:#fff;--bd:#E1E0EA;--bd-soft:#ECEBF2;
+--ink:#16142B;--mut:#6B6985;--lime:#D4F36B;--green:#1F7A4D;--green-s:#E3F4EA;--amber:#9A6200;--amber-s:#FCF0D4;--red:#B3261E;--red-s:#FBE5E3;--blue:#1e5fa8;--blue-s:#e4eef9;
+--font:'Inter',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace;--row:34px}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121120;--bg-deep:#0C0B18;--card:#1A1930;--bd:#2E2C4A;--bd-soft:#25233E;--ink:#EDECF7;--mut:#9C9AB8;--accent-soft:#2A2656;--accent-line:#443F85;--accent:#C9C4FF;--green-s:#133324;--amber-s:#3A2C0C;--red-s:#3F1815;--blue-s:#12263F;--green:#6BD39B;--amber:#F0BE5B;--red:#FF9A92;--blue:#7DB5EE}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font:13px/1.45 var(--font);color:var(--ink);background:var(--bg);display:flex;flex-direction:column}
+header{background:#241E4E;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px;height:52px;flex:none}
+header img{height:22px}header .sep{width:1px;height:22px;background:#ffffff40}header b{font-weight:600;font-size:14px}header small{opacity:.65;margin-left:6px}
+header .sp{flex:1}.hb{background:#ffffff14;color:#fff;border:1px solid #ffffff26;border-radius:8px;padding:6px 11px;font:inherit;cursor:pointer;display:flex;gap:7px;align-items:center}.hb:hover{background:#ffffff26}
+.badge{background:var(--lime);color:#241E4E;font-weight:700;border-radius:99px;padding:0 7px;font-size:11px}.badge.err{background:#FF8A80}.dot{width:8px;height:8px;border-radius:50%;background:#7a7a95}.dot.on{background:#5BE49B}
+main{flex:1;overflow:auto;padding:18px 22px 40px}.wrap{max-width:1500px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px}
+.drop{border:2px dashed var(--accent-line);border-radius:14px;padding:46px 20px;text-align:center;background:var(--card);cursor:pointer;transition:.15s}.drop.over,.drop:hover{background:var(--accent-soft);border-color:var(--accent-b)}
+.drop h2{margin:0 0 6px;font-size:18px}.drop p{margin:4px 0;color:var(--mut)}
+.btn{background:var(--card);border:1px solid var(--bd);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer;display:inline-flex;gap:6px;align-items:center}.btn:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.btn.pri{background:#241E4E;color:#fff;border-color:#241E4E}.btn.pri:hover{background:#171335}.btn.sm{padding:3px 9px;font-size:12px}.btn:disabled{opacity:.5;cursor:default}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}.bar .sp{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--bd);background:var(--card);border-radius:99px;padding:2px 10px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+.chip.ok::before,.chip.warn::before,.chip.error::before{content:"";width:7px;height:7px;border-radius:50%}.chip.ok::before{background:#2fbf71}.chip.warn::before{background:#e5a100}.chip.error::before{background:#e5483d}
+.chip.t{cursor:pointer}.chip.t.on{background:var(--accent-soft);border-color:var(--accent-b);color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}.stat{padding:11px 14px}.stat b{font-size:20px;display:block;letter-spacing:-.02em}.stat span{color:var(--mut);font-size:11.5px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--bd);margin-bottom:12px}.tab{padding:8px 14px;border:0;background:none;font:inherit;color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}.tab.on{color:var(--accent);border-color:var(--accent-b);font-weight:600}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:6px 10px}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--accent-b);box-shadow:0 0 0 3px var(--accent-soft)}
+.tw{overflow:auto;max-height:calc(100vh - 340px);border-radius:12px}table{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px}
+th{position:sticky;top:0;background:var(--bg-deep);text-align:left;padding:0 10px;height:34px;font-weight:600;font-size:11.5px;color:var(--mut);white-space:nowrap;cursor:pointer;user-select:none;border-bottom:1px solid var(--bd);z-index:1}th:hover{color:var(--ink)}
+td{padding:0 10px;height:var(--row);border-bottom:1px solid var(--bd-soft);white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis}tr:hover td{background:var(--accent-soft)}
+body.comfy{--row:46px}.num{text-align:right;font-variant-numeric:tabular-nums}.mono{font-family:var(--mono);font-size:12px}.mut{color:var(--mut)}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:600}.tag.y{background:var(--amber-s);color:var(--amber)}.tag.n{color:var(--mut);font-weight:400}.tag.e{background:var(--red-s);color:var(--red)}.tag.w{background:var(--amber-s);color:var(--amber)}.tag.i{background:var(--blue-s);color:var(--blue)}
+.hrs{display:inline-block;height:6px;border-radius:3px;background:var(--accent-b);vertical-align:middle;margin-left:6px;opacity:.55}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+.scrim{position:fixed;inset:0;background:#0007;display:none;z-index:20}.scrim.on{display:block}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);background:var(--bg);z-index:21;transform:translateX(105%);transition:.2s;display:flex;flex-direction:column;box-shadow:-8px 0 30px #0004}.panel.on{transform:none}
+.panel h3{margin:0;padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:15px}.pb{padding:16px 18px;overflow:auto;flex:1}
+.sec{margin-bottom:18px}.sec h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}.sec p{margin:4px 0 8px;color:var(--mut);font-size:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid2 label{font-size:12px;color:var(--mut);display:flex;flex-direction:column;gap:3px}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,94vw);background:var(--card);border:1px solid var(--bd);border-radius:14px;z-index:22;padding:20px;display:none}.modal.on{display:block}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#241E4E;color:#fff;border-radius:10px;padding:10px 16px;z-index:30;display:none;max-width:90vw}
+.nm{width:100%}.urow{display:grid;grid-template-columns:130px 1fr;gap:8px;margin-bottom:6px;align-items:center}
+.sevb{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.note{font-size:12px;color:var(--mut);background:var(--blue-s);border-radius:8px;padding:8px 12px;margin-bottom:12px}
+</style></head><body>
+<header><img src="/static/esga-logo.png" alt="ESGA" onerror="this.style.display='none'"><span class="sep"></span><b>Message Hours</b><small id="ver"></small><span class="sp"></span>
+<button class="hb" id="bHealth">Data Health <span class="badge" id="hBadge">0</span></button>
+<button class="hb" id="bGoogle"><span class="dot" id="gDot"></span><span id="gTxt">Google</span></button>
+<button class="hb" id="bSettings">Settings</button></header>
+<main><div class="wrap" id="app"></div></main>
+<div class="scrim" id="scrim"></div><div class="panel" id="panel"></div><div class="modal" id="modal"></div><div class="toast" id="toast"></div>
+<input type="file" id="file" accept=".json,application/json" multiple hidden>
+<script>
+const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S=null,G=null,tab='hours',F={q:'',user:'',from:'',to:'',flag:''},H={sev:'',kind:'',q:''},sort={k:'date',d:-1},limit=300,addMode=false;
+const api=async(u,o={})=>{const r=await fetch(u,o);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.detail||r.statusText);return j};
+const toast=(m,ms=3500)=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',ms)};
+const tag=v=>v==='Yes'?'<span class="tag y">Yes</span>':`<span class="tag n">${esc(v)}</span>`;
+
+async function load(){S=await api('/api/state');render();refreshG()}
+async function refreshG(){try{G=await api('/api/google');$('#gDot').className='dot'+(G.connected?' on':'');$('#gTxt').textContent=G.connected?G.email:'Connect Google'}catch(e){}}
+async function importFiles(files,replace){if(!files.length)return;toast('Importing '+files.length+' file(s)…');const fd=new FormData();[...files].forEach(f=>fd.append('files',f));
+ try{S=await api('/api/import?replace='+replace,{method:'POST',body:fd});render();const e=S.health.summary.filter(s=>s.sev==='error').reduce((a,s)=>a+s.count,0);toast(e?`Imported with ${e} error(s) — see Data Health`:`Imported ${S.stats.included_messages.toLocaleString()} messages`)}catch(e){toast('Import failed: '+e.message)}}
+$('#file').onchange=e=>{importFiles(e.target.files,!addMode);e.target.value=''};
+
+function render(){
+ $('#ver').textContent='v'+S.version;const bad=S.health.summary.filter(s=>s.sev!=='info').reduce((a,s)=>a+s.count,0),err=S.health.summary.some(s=>s.sev==='error');
+ const hb=$('#hBadge');hb.textContent=bad;hb.className='badge'+(err?' err':'');
+ const A=$('#app');
+ if(!S.files.length){A.innerHTML=`<div class="drop" id="dz"><h2>Drop one or more JSON files here</h2><p>Slack List exports (e.g. <span class="mono">September - 2026.json</span>). Several files are combined into one dataset.</p><p><button class="btn pri">Choose files</button></p></div>`;wireDrop($('#dz'),true);return}
+ const st=S.stats;
+ A.innerHTML=`<div class="bar"><div class="chips">${S.files.map(f=>`<span class="chip ${f.status}" title="${esc(f.list)}">${esc(f.name)} · ${f.added.toLocaleString()} msgs${f.duplicates?` · ${f.duplicates} dup`:''}</span>`).join('')}</div><span class="sp"></span>
+ <button class="btn" id="bAdd">+ Add files</button><button class="btn" id="bRep">Replace</button><button class="btn" id="bClr">Clear</button><button class="btn pri" id="bPush">Push to Google Sheet</button></div>
+ <div class="stats"><div class="card stat"><b>${st.rows.toLocaleString()}</b><span>user-days</span></div><div class="card stat"><b>${st.users}</b><span>users (excluding ${S.excluded.length} IDs)</span></div>
+ <div class="card stat"><b>${st.included_messages.toLocaleString()}</b><span>messages used of ${st.messages.toLocaleString()}</span></div><div class="card stat"><b>${S.rows.filter(r=>r.delayed==='Yes').length}</b><span>delayed checkouts</span></div>
+ <div class="card stat"><b>${S.rows.filter(r=>r.next11==='Yes').length} / ${S.rows.filter(r=>r.next12==='Yes').length}</b><span>next-day start 11 / 12</span></div><div class="card stat"><b>${st.from||'–'}</b><span>to ${st.to||'–'} · ${esc(st.tz)}</span></div></div>
+ <div class="tabs"><button class="tab ${tab==='hours'?'on':''}" data-t="hours">Hours</button><button class="tab ${tab==='users'?'on':''}" data-t="users">Users</button><button class="tab ${tab==='health'?'on':''}" data-t="health">Data Health <span class="badge" style="background:var(--accent-soft);color:var(--accent)">${bad}</span></button></div><div id="tb"></div>`;
+ A.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
+ $('#bAdd').onclick=()=>{addMode=true;$('#file').click()};$('#bRep').onclick=()=>{addMode=false;$('#file').click()};
+ $('#bClr').onclick=async()=>{if(confirm('Clear the imported data? Settings are kept.')){S=await api('/api/clear',{method:'POST'});render()}};$('#bPush').onclick=pushModal;
+ wireDrop(A,false);({hours:hoursTab,users:usersTab,health:healthTab})[tab]()}
+function wireDrop(el,rep){el.ondragover=e=>{e.preventDefault();el.classList.add('over')};el.ondragleave=()=>el.classList.remove('over');el.ondrop=e=>{e.preventDefault();el.classList.remove('over');importFiles(e.dataTransfer.files,rep)};if(rep)el.onclick=()=>{addMode=false;$('#file').click()}}
+
+function filtered(){const q=F.q.toLowerCase();return S.rows.filter(r=>(!F.user||r.user_id===F.user)&&(!F.from||r.date>=F.from)&&(!F.to||r.date<=F.to)&&
+ (!F.flag||(F.flag==='delayed'&&r.delayed==='Yes')||(F.flag==='n11'&&r.next11==='Yes')||(F.flag==='n12'&&r.next12==='Yes')||(F.flag==='mismatch'&&r.note.startsWith('Started')))&&
+ (!q||(r.user+' '+r.user_id+' '+r.last_project+' '+r.last_message).toLowerCase().includes(q)))}
+const one=()=>S.settings&&S.settings.one_row_per_date!==false;
+const colsNow=()=>[['date','Date'],...(one()?[]:[['user','User']]),['first','First msg'],['last','Last msg'],...(one()?[['first_by','First by'],['last_by','Last by']]:[]),['hours','Span (h)','num'],['messages','Msgs','num'],['delayed','Checkout after 8 PM'],['next_start','Next day start (11/12)'],['last_project','Last project'],['last_message','Last message'],['note','Policy note']];
+function hoursTab(){const T=$('#tb');
+ T.innerHTML=`<div class="bar"><input id="fq" placeholder="Search user, project, message…" value="${esc(F.q)}" style="width:260px"><select id="fu"><option value="">All users</option>${S.users.map(u=>`<option value="${u.user_id}" ${F.user===u.user_id?'selected':''}>${esc(u.user)}</option>`).join('')}</select>
+ <input type="date" id="ff" value="${F.from}"><input type="date" id="ft" value="${F.to}"><select id="fl"><option value="">All rows</option><option value="delayed">Delayed checkout</option><option value="n11">Next day at 11</option><option value="n12">Next day at 12</option><option value="mismatch">Policy mismatch</option></select><span class="sp"></span>
+ <span class="mut" id="cnt"></span><button class="btn" id="dn">Density: ${document.body.classList.contains('comfy')?'Comfortable':'Compact'}</button><button class="btn" id="csv">Export CSV</button></div><div class="card tw" id="tw"></div>`;
+ $('#fl').value=F.flag;const upd=()=>{F.q=$('#fq').value;F.user=$('#fu').value;F.from=$('#ff').value;F.to=$('#ft').value;F.flag=$('#fl').value;limit=300;rows()};
+ ['fq','fu','ff','ft','fl'].forEach(i=>$('#'+i).oninput=upd);$('#dn').onclick=()=>{document.body.classList.toggle('comfy');hoursTab()};$('#csv').onclick=()=>csv(filtered(),colsNow().map(c=>c[0]),colsNow().map(c=>c[1]),'hours');rows()}
+const startTag=v=>v&&v.startsWith('At')?`<span class="tag y">${esc(v)}</span>`:`<span class="tag n">${esc(v)}</span>`;
+function cell(x,k,mx){const v=x[k];
+ if(k==='date')return `<td class="mono">${x.date} <span class="mut">${x.day}</span></td>`;
+ if(k==='user')return `<td title="${esc(x.user_id)}">${esc(x.user)}</td>`;
+ if(k==='first'||k==='last')return `<td class="mono">${v}</td>`;
+ if(k==='hours')return `<td class="num mono">${v.toFixed(2)}<span class="hrs" style="width:${Math.round(v/mx*40)}px"></span></td>`;
+ if(k==='messages')return `<td class="num">${v}</td>`;
+ if(k==='delayed')return `<td>${tag(v)}</td>`;
+ if(k==='next_start')return `<td title="${esc(v)}">${startTag(v)}</td>`;
+ return `<td class="${k==='note'?'mut':''}" title="${esc(v)}">${esc(v)}</td>`}
+function rows(){let r=filtered();const k=sort.k;r.sort((a,b)=>(a[k]>b[k]?1:a[k]<b[k]?-1:0)*sort.d||a.user.localeCompare(b.user));$('#cnt').textContent=r.length.toLocaleString()+' rows';
+ const mx=Math.max(1,...r.map(x=>x.hours));
+ $('#tw').innerHTML=r.length?`<table><thead><tr>${colsNow().map(c=>`<th data-k="${c[0]}" class="${c[2]||''}">${c[1]}${sort.k===c[0]?(sort.d>0?' ▲':' ▼'):''}</th>`).join('')}</tr></thead><tbody>${r.slice(0,limit).map(x=>`<tr>${colsNow().map(c=>cell(x,c[0],mx)).join('')}</tr>`).join('')}</tbody></table>${r.length>limit?`<div class="empty"><button class="btn" id="more">Show more (${r.length-limit} left)</button></div>`:''}`:'<div class="empty">No rows match these filters.</div>';
+ $('#tw').querySelectorAll('th').forEach(h=>h.onclick=()=>{sort={k:h.dataset.k,d:sort.k===h.dataset.k?-sort.d:-1};rows()});const m=$('#more');if(m)m.onclick=()=>{limit+=500;rows()}}
+function usersTab(){const U=[['user','User'],['days','Active days','num'],['total_hours','Total h','num'],['avg_hours','Avg h/day','num'],['delayed','Delayed checkouts','num'],['next11','Started at 11','num'],['next12','Started at 12','num'],['messages','Msgs','num'],['last_date','Last active'],['last_project','Last project'],['last_message','Last message']];
+ $('#tb').innerHTML=`<div class="bar"><span class="sp"></span><button class="btn" id="csv">Export CSV</button></div><div class="card tw"><table><thead><tr>${U.map(c=>`<th class="${c[2]||''}">${c[1]}</th>`).join('')}</tr></thead><tbody>${S.users.map(u=>`<tr>${U.map(c=>`<td class="${c[2]||''}" title="${esc(u[c[0]])}">${c[0]==='user'?esc(u.user)+(u.user!==u.user_id?` <span class="mut mono">${u.user_id}</span>`:''):esc(u[c[0]])}</td>`).join('')}</tr>`).join('')||'<tr><td class="empty">No users.</td></tr>'}</tbody></table></div>`;
+ $('#csv').onclick=()=>csv(S.users,U.map(c=>c[0]),U.map(c=>c[1]),'users')}
+function healthTab(){const hs=S.health.summary;const items=S.health.items.filter(i=>(!H.sev||i.sev===H.sev)&&(!H.kind||i.kind===H.kind)&&(!H.q||JSON.stringify(i).toLowerCase().includes(H.q.toLowerCase())));
+ $('#tb').innerHTML=`<div class="note">Everything that looked wrong or unusual while reading and analysing the files. Items marked “left out” never reach the hours table. Click a type to filter.</div>
+ ${hs.length?'':'<div class="card empty">No issues found. 🎉</div>'}<div class="sevb">${hs.map(s=>`<span class="chip t ${H.kind===s.kind?'on':''}" data-k="${s.kind}"><span class="tag ${s.sev[0]}">${s.sev}</span>${esc(s.label)} · ${s.count}</span>`).join('')}</div>
+ ${hs.length?`<div class="bar"><input id="hq" placeholder="Search issues…" value="${esc(H.q)}"><select id="hs"><option value="">All severities</option><option>error</option><option>warn</option><option>info</option></select><span class="sp"></span><span class="mut">${items.length} shown of ${S.health.total}</span><button class="btn" id="csv">Export CSV</button></div>
+ <div class="card tw"><table><thead><tr><th>Severity</th><th>Type</th><th>File</th><th>Project</th><th>User</th><th>When</th><th>Detail</th></tr></thead><tbody>${items.map(i=>`<tr><td><span class="tag ${i.sev[0]}">${i.sev}</span></td><td>${esc(i.label)}</td><td>${esc(i.file)}</td><td title="${esc(i.project)}">${esc(i.project)}</td><td>${esc(S.names[i.user]||i.user)}</td><td class="mono">${esc((i.when||'').slice(0,16).replace('T',' '))}</td><td title="${esc(i.detail)}">${esc(i.detail)}</td></tr>`).join('')}</tbody></table></div>`:''}`;
+ $('#tb').querySelectorAll('.chip.t').forEach(c=>c.onclick=()=>{H.kind=H.kind===c.dataset.k?'':c.dataset.k;healthTab()});
+ if(hs.length){$('#hs').value=H.sev;$('#hs').onchange=e=>{H.sev=e.target.value;healthTab()};$('#hq').oninput=e=>{H.q=e.target.value;clearTimeout(healthTab._t);healthTab._t=setTimeout(()=>{healthTab();$('#hq').focus()},250)};
+  $('#csv').onclick=()=>csv(items,['sev','label','file','project','user','when','detail'],['Severity','Type','File','Project','User','When','Detail'],'data-health')}}
+function csv(rs,keys,heads,name){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const t=[heads.map(q).join(',')].concat(rs.map(r=>keys.map(k=>q(r[k])).join(','))).join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'}));a.download=`message-hours-${name}.csv`;a.click()}
+
+/* ---------- panels */
+const open=h=>{$('#panel').innerHTML=h;$('#panel').classList.add('on');$('#scrim').classList.add('on')};
+const closeAll=()=>{$('#panel').classList.remove('on');$('#modal').classList.remove('on');$('#scrim').classList.remove('on')};$('#scrim').onclick=closeAll;document.addEventListener('keydown',e=>e.key==='Escape'&&closeAll());
+$('#bHealth').onclick=()=>{if(!S||!S.files.length)return toast('Import a file first.');tab='health';render()};
+$('#bGoogle').onclick=()=>$('#bSettings').click();
+$('#bSettings').onclick=async()=>{await refreshG();const s=S.settings,ids=S.known_ids||[];
+ open(`<h3>Settings <button class="btn sm" onclick="closeAll()">Close</button></h3><div class="pb">
+ <div class="sec"><h4>Rows</h4><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="s_one" type="checkbox" ${s.one_row_per_date!==false?'checked':''}> One row per date (all users combined: earliest + latest message of the day)</label></div>
+ <div class="sec"><h4>Time &amp; policy</h4><p>Hours come from each user’s first and last message of a working day. Messages before the cut-off hour count towards the previous day.</p><div class="grid2">
+ <label>Time zone<input id="s_tz" value="${esc(s.tz)}"></label><label>Day starts at (hour)<input id="s_cut" type="number" min="0" max="12" value="${s.day_cutoff_hour}"></label>
+ <label>Delayed checkout after<input id="s_late" value="${s.late_checkout}"></label><label>Start window (minutes)<input id="s_win" type="number" value="${s.start_window_min}"></label>
+ <label>“Started at 11” from<input id="s_s2" value="${s.shift2_start}"></label><label>“Started at 12” from<input id="s_s3" value="${s.shift3_start}"></label>
+ <label>Shift 2 eligible if worked past<input id="s_e2" value="${s.shift2_eligible}"></label><label>Shift 3 eligible if worked past<input id="s_e3" value="${s.shift3_eligible}"></label></div></div>
+ <div class="sec"><h4>Excluded user IDs</h4><p>These IDs are left out of every table. Paste IDs separated by commas, spaces or new lines.</p><textarea id="s_ex" rows="4" class="nm" placeholder="U01ABC…, U02DEF…">${S.excluded.map(e=>e.user_id).join('\n')}</textarea></div>
+ <div class="sec"><h4>User names</h4><p>The export only has Slack IDs. Add names once; they are stored on this PC.</p>${ids.map(id=>`<div class="urow"><span class="mono ${S.excluded.some(e=>e.user_id===id)?'mut':''}">${id}</span><input class="nm uname" data-id="${id}" value="${esc(S.names[id]||'')}" placeholder="Name"></div>`).join('')||'<p>Import a file to list its users.</p>'}</div>
+ <div class="sec"><h4>Google account</h4><p>${G&&G.connected?`Connected as <b>${esc(G.email)}</b>`:'Not connected. Only @esga.co accounts are accepted.'}</p>${G&&G.connected?'<button class="btn" id="gd">Disconnect</button>':'<button class="btn pri" id="gc">Connect Google</button>'}</div>
+ <button class="btn pri" id="sv" style="width:100%;justify-content:center">Save settings</button></div>`);
+ $('#sv').onclick=async()=>{const names={};document.querySelectorAll('.uname').forEach(i=>{if(i.value.trim())names[i.dataset.id]=i.value});
+  const ex=($('#s_ex').value.match(/[A-Za-z0-9]{6,}/g)||[]).map(x=>({user_id:x,note:(S.excluded.find(e=>e.user_id===x.toUpperCase())||{}).note||''}));
+  const settings={one_row_per_date:$('#s_one').checked,tz:$('#s_tz').value.trim(),day_cutoff_hour:+$('#s_cut').value,late_checkout:$('#s_late').value,start_window_min:+$('#s_win').value,shift2_start:$('#s_s2').value,shift3_start:$('#s_s3').value,shift2_eligible:$('#s_e2').value,shift3_eligible:$('#s_e3').value};
+  try{S=await api('/api/settings',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify({settings,excluded:ex,names})});closeAll();render();toast('Settings saved')}catch(e){toast(e.message)}};
+ const gc=$('#gc');if(gc)gc.onclick=async()=>{gc.disabled=true;gc.textContent='Waiting for Google sign-in…';try{await api('/api/google/connect',{method:'POST'});await refreshG();toast('Google connected');$('#bSettings').click()}catch(e){toast(e.message);gc.disabled=false;gc.textContent='Connect Google'}};
+ const gd=$('#gd');if(gd)gd.onclick=async()=>{await api('/api/google/disconnect',{method:'POST'});await refreshG();$('#bSettings').click()}};
+function pushModal(){const m=$('#modal');m.innerHTML=`<h3 style="margin:0 0 6px">Push to Google Sheet</h3><p class="mut" style="margin:0 0 12px">Writes three tabs — <b>Daily Hours</b>, <b>User Summary</b> (with a chart) and <b>Data Health</b> — replacing their contents. Other tabs are not touched.</p>
+ <input id="pu" class="nm" placeholder="https://docs.google.com/spreadsheets/d/…" value="${esc(S.settings.sheet_url||'')}"><p id="pm" class="mut"></p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" onclick="closeAll()">Cancel</button><button class="btn pri" id="pg">Push ${S.stats.rows.toLocaleString()} rows</button></div>`;
+ m.classList.add('on');$('#scrim').classList.add('on');
+ $('#pg').onclick=async()=>{if(!G||!G.connected){$('#pm').textContent='Connect Google first (Settings → Google account).';return}$('#pg').disabled=true;$('#pm').textContent='Writing…';
+  try{const r=await api('/api/push',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sheet_url:$('#pu').value.trim()})});S.settings.sheet_url=$('#pu').value.trim();$('#pm').innerHTML=`Done. <a href="${r.url}" target="_blank" rel="noopener">Open the sheet</a>`}catch(e){$('#pm').textContent=e.message}$('#pg').disabled=false}}
+load();
+</script></body></html>
